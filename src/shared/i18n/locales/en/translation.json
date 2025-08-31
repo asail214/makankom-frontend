@@ -1,0 +1,46 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "view": "View",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "search": "Search",
+    "filter": "Filter",
+    "language": "Language",
+    "english": "English",
+    "arabic": "العربية"
+  },
+  "navigation": {
+    "home": "Home",
+    "events": "Events",
+    "dashboard": "Dashboard",
+    "profile": "Profile",
+    "login": "Login",
+    "logout": "Logout",
+    "register": "Register"
+  },
+  "auth": {
+    "login": "Login",
+    "register": "Register",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "forgotPassword": "Forgot Password?",
+    "loginSuccess": "Login successful",
+    "loginError": "Invalid credentials",
+    "logoutSuccess": "Logged out successfully"
+  },
+  "events": {
+    "title": "Events",
+    "searchPlaceholder": "Search events...",
+    "noEvents": "No events found",
+    "eventDetails": "Event Details",
+    "bookNow": "Book Now"
+  }
+}

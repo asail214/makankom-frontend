@@ -1,0 +1,46 @@
+{
+  "common": {
+    "loading": "جاري التحميل...",
+    "error": "حدث خطأ",
+    "save": "حفظ",
+    "cancel": "إلغاء",
+    "delete": "حذف",
+    "edit": "تعديل",
+    "view": "عرض",
+    "back": "رجوع",
+    "next": "التالي",
+    "previous": "السابق",
+    "search": "بحث",
+    "filter": "تصفية",
+    "language": "اللغة",
+    "english": "English",
+    "arabic": "العربية"
+  },
+  "navigation": {
+    "home": "الرئيسية",
+    "events": "الفعاليات",
+    "dashboard": "لوحة التحكم",
+    "profile": "الملف الشخصي",
+    "login": "تسجيل الدخول",
+    "logout": "تسجيل الخروج",
+    "register": "إنشاء حساب"
+  },
+  "auth": {
+    "login": "تسجيل الدخول",
+    "register": "إنشاء حساب",
+    "email": "البريد الإلكتروني",
+    "password": "كلمة المرور",
+    "confirmPassword": "تأكيد كلمة المرور",
+    "forgotPassword": "نسيت كلمة المرور؟",
+    "loginSuccess": "تم تسجيل الدخول بنجاح",
+    "loginError": "بيانات الدخول غير صحيحة",
+    "logoutSuccess": "تم تسجيل الخروج بنجاح"
+  },
+  "events": {
+    "title": "الفعاليات",
+    "searchPlaceholder": "البحث في الفعاليات...",
+    "noEvents": "لا توجد فعاليات",
+    "eventDetails": "تفاصيل الفعالية",
+    "bookNow": "احجز الآن"
+  }
+}
