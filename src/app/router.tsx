@@ -11,6 +11,8 @@ import { EventDetail } from '../features/events/pages/EventDetail';
 import { Login } from '../features/auth/pages/Login';
 import { Register } from '../features/auth/pages/Register';
 import RoleSelection from '../features/auth/pages/RoleSelection';
+import { CustomerDashboard, CustomerProfile } from '../features/customer/pages';
+import { CustomerTickets } from '../features/customer/pages/Tickets'; // Add this import
 
 // Create a proper landing page
 const HomePage = () => {
@@ -149,14 +151,7 @@ const SelectRolePage = () => {
   return <RoleSelection />;
 };
 
-// Temporary placeholder components remain the same...
-const CustomerDashboard = () => (
-  <div>
-    <h1 className="text-2xl font-bold text-gray-900 mb-4">Customer Dashboard</h1>
-    <p className="text-gray-600">Welcome to your dashboard</p>
-  </div>
-);
-
+// Temporary placeholder components
 const OrganizerDashboard = () => (
   <div>
     <h1 className="text-2xl font-bold text-gray-900 mb-4">Organizer Dashboard</h1>
@@ -192,6 +187,21 @@ const NotFoundPage = () => (
   </div>
 );
 
+// Placeholder components for customer routes
+const CustomerOrders = () => (
+  <div>
+    <h1 className="text-2xl font-bold text-gray-900 mb-4">My Orders</h1>
+    <p className="text-gray-600">Your order history will appear here</p>
+  </div>
+);
+
+const CustomerWishlist = () => (
+  <div>
+    <h1 className="text-2xl font-bold text-gray-900 mb-4">My Wishlist</h1>
+    <p className="text-gray-600">Your saved events will appear here</p>
+  </div>
+);
+
 export const AppRouter: React.FC = () => {
   return (
     <Routes>
@@ -211,6 +221,46 @@ export const AppRouter: React.FC = () => {
           <ProtectedRoute allowedRoles={['customer']}>
             <CustomerLayout>
               <CustomerDashboard />
+            </CustomerLayout>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/customer/profile"
+        element={
+          <ProtectedRoute allowedRoles={['customer']}>
+            <CustomerLayout>
+              <CustomerProfile />
+            </CustomerLayout>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/customer/tickets"
+        element={
+          <ProtectedRoute allowedRoles={['customer']}>
+            <CustomerLayout>
+              <CustomerTickets />
+            </CustomerLayout>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/customer/orders"
+        element={
+          <ProtectedRoute allowedRoles={['customer']}>
+            <CustomerLayout>
+              <CustomerOrders />
+            </CustomerLayout>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/customer/wishlist"
+        element={
+          <ProtectedRoute allowedRoles={['customer']}>
+            <CustomerLayout>
+              <CustomerWishlist />
             </CustomerLayout>
           </ProtectedRoute>
         }

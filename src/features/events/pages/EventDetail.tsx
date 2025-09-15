@@ -5,6 +5,7 @@ import { fetchEvent } from '../api';
 import { Card } from '../../../shared/components/ui/Card';
 import { Button } from '../../../shared/components/ui/Button';
 import { InlineLoading } from '../../../shared/components/ui/LoadingSpinner';
+import { TicketBookingForm } from '../../tickets/components/TicketBookingForm'; // Add this import
 
 export const EventDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -181,80 +182,98 @@ export const EventDetail: React.FC = () => {
 
           {/* Sidebar */}
           <div className="lg:col-span-1">
-            <Card variant="luxury" className="p-6 sticky top-8">
-              {/* Location/Virtual Link */}
-              {event.event_type === 'physical' ? (
-                <div className="mb-6">
-                  <h3 className="font-semibold text-gray-900 mb-3">📍 Location</h3>
-                  {event.venue_name && (
-                    <p className="font-medium text-gray-800 mb-2">{event.venue_name}</p>
-                  )}
-                  {event.venue_address && (
-                    <p className="text-gray-600 text-sm mb-4">{event.venue_address}</p>
-                  )}
-                </div>
-              ) : (
-                <div className="mb-6">
-                  <h3 className="font-semibold text-gray-900 mb-3">🖥️ Virtual Event</h3>
-                  <p className="text-gray-600 text-sm mb-4">
-                    This is an online event. Join from anywhere!
-                  </p>
-                  {event.virtual_link && (
-                    <a 
-                      href={event.virtual_link} 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="text-primary-600 hover:text-primary-700 text-sm font-medium"
-                    >
-                      Event Link →
-                    </a>
-                  )}
-                </div>
-              )}
-
-              {/* CTA Section */}
-              <div className="space-y-3">
-                <Button 
-                  variant="primary" 
-                  className="w-full"
-                  size="lg"
-                  disabled={event.status !== 'published'}
-                >
-                  {event.status === 'published' ? '🎫 Get Tickets' : 'Event Not Available'}
-                </Button>
-                
-                <Button 
-                  variant="ghost" 
-                  className="w-full"
-                  size="md"
-                >
-                  ❤️ Add to Wishlist
-                </Button>
-                
-                <Button 
-                  variant="ghost" 
-                  className="w-full"
-                  size="md"
-                >
-                  📤 Share Event
-                </Button>
-              </div>
-
-              {/* Quick Info */}
-              <div className="mt-6 pt-6 border-t border-gray-200 space-y-3">
-                <div className="flex justify-between text-sm">
-                  <span className="text-gray-500">Event ID</span>
-                  <span className="font-medium">#{event.id}</span>
-                </div>
-                
-                {event.category && (
-                  <div className="flex justify-between text-sm">
-                    <span className="text-gray-500">Category</span>
-                    <span className="font-medium">{event.category.name}</span>
+            <div className="space-y-6 sticky top-8">
+              {/* Location/Virtual Info */}
+              <Card variant="luxury" className="p-6">
+                {event.event_type === 'physical' ? (
+                  <div>
+                    <h3 className="font-semibold text-gray-900 mb-3">📍 Location</h3>
+                    {event.venue_name && (
+                      <p className="font-medium text-gray-800 mb-2">{event.venue_name}</p>
+                    )}
+                    {event.venue_address && (
+                      <p className="text-gray-600 text-sm mb-4">{event.venue_address}</p>
+                    )}
+                    {event.location_link && (
+                      <a 
+                        href={event.location_link} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="text-primary-600 hover:text-primary-700 text-sm font-medium"
+                      >
+                        View on Map →
+                      </a>
+                    )}
+                  </div>
+                ) : (
+                  <div>
+                    <h3 className="font-semibold text-gray-900 mb-3">🖥️ Virtual Event</h3>
+                    <p className="text-gray-600 text-sm mb-4">
+                      This is an online event. Join from anywhere!
+                    </p>
+                    {event.virtual_link && (
+                      <a 
+                        href={event.virtual_link} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="text-primary-600 hover:text-primary-700 text-sm font-medium"
+                      >
+                        Event Link →
+                      </a>
+                    )}
                   </div>
                 )}
-              </div>
-            </Card>
+              </Card>
+
+              {/* Ticket Booking Form */}
+              {event.status === 'published' ? (
+                <TicketBookingForm 
+                  eventId={event.id} 
+                  onBookingSuccess={() => {
+                    // Handle successful booking
+                    console.log('Booking successful!');
+                  }}
+                />
+              ) : (
+                <Card variant="luxury" className="p-6 text-center">
+                  <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <span className="text-gray-400 text-2xl">🎫</span>
+                  </div>
+                  <h3 className="font-semibold text-gray-900 mb-2">Tickets Not Available</h3>
+                  <p className="text-gray-600 text-sm">
+                    This event is not currently accepting bookings.
+                  </p>
+                </Card>
+              )}
+
+              {/* Quick Actions */}
+              <Card variant="luxury" className="p-6">
+                <div className="space-y-3">
+                  <Button variant="ghost" className="w-full">
+                    ❤️ Add to Wishlist
+                  </Button>
+                  
+                  <Button variant="ghost" className="w-full">
+                    📤 Share Event
+                  </Button>
+                </div>
+
+                {/* Quick Info */}
+                <div className="mt-6 pt-6 border-t border-gray-200 space-y-3">
+                  <div className="flex justify-between text-sm">
+                    <span className="text-gray-500">Event ID</span>
+                    <span className="font-medium">#{event.id}</span>
+                  </div>
+                  
+                  {event.category && (
+                    <div className="flex justify-between text-sm">
+                      <span className="text-gray-500">Category</span>
+                      <span className="font-medium">{event.category.name}</span>
+                    </div>
+                  )}
+                </div>
+              </Card>
+            </div>
           </div>
         </div>
       </div>
