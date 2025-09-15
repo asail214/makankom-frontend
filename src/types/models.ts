@@ -26,20 +26,24 @@ export interface Organizer extends User {
 
 export interface Event {
   id: number;
-  title_en: string;
-  title_ar: string;
-  description_en: string;
-  description_ar: string;
+  title: string;           // Changed from title_en
+  title_ar?: string;
+  description: string;     // Changed from description_en
+  description_ar?: string;
   event_type: 'physical' | 'virtual';
-  status: 'draft' | 'pending' | 'approved' | 'rejected' | 'cancelled';
+  status: 'draft' | 'published' | 'cancelled' | 'completed';
   start_date: string;
   end_date: string;
   venue_name?: string;
   venue_address?: string;
   virtual_link?: string;
-  cover_image?: string;
+  banner_image?: string;
   min_age?: number;
   max_age?: number;
+  slug?: string;
+  organizer_id?: number;
+  category_id?: number;
+  brand_id?: number;
 }
 
 export type UserRole = 'customer' | 'organizer' | 'admin' | 'scan-point';
