@@ -1,6 +1,7 @@
 import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom'; 
 import { fetchEvents, type EventsParams } from '../api';
 import { Card } from '../../../shared/components/ui/Card';
 import { InlineLoading } from '../../../shared/components/ui/LoadingSpinner';
@@ -65,8 +66,8 @@ export const EventsList: React.FC = () => {
     );
   }
 
-  // Safely get events array with fallback
-  const events = eventsData?.items || [];
+  // Fix: Use 'data' instead of 'items'
+  const events = eventsData?.data || [];
   const eventsCount = events.length;
 
   console.log('Rendering EventsList with:', { eventsCount, events });
@@ -142,12 +143,19 @@ export const EventsList: React.FC = () => {
 
 // Extract EventCard component for reusability
 const EventCard: React.FC<{ event: Event }> = ({ event }) => {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate(`/events/${event.id}`);
+  };
+
   return (
     <Card 
       variant="luxury"
       padding="sm"
       hover
       className="group cursor-pointer"
+      onClick={handleClick}
     >
       {/* Event Image */}
       <div className="relative overflow-hidden rounded-lg mb-4">

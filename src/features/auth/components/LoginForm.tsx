@@ -61,7 +61,12 @@ export const LoginForm: React.FC<LoginFormProps> = ({ userType }) => {
     },
     onError: (error: ApiError) => {
       if (error.response?.data?.errors) {
-        setErrors(error.response.data.errors);
+        // Convert array of errors to single string for each field
+        const formattedErrors: Record<string, string> = {};
+        Object.entries(error.response.data.errors).forEach(([key, messages]) => {
+          formattedErrors[key] = Array.isArray(messages) ? messages[0] : messages;
+        });
+        setErrors(formattedErrors);
       } else {
         setErrors({ general: error.response?.data?.message || 'Login failed' });
       }

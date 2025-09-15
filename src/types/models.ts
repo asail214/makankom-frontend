@@ -24,12 +24,12 @@ export interface Organizer extends User {
   status: 'pending' | 'verified' | 'rejected';
 }
 
-// Updated Event interface to match actual backend response
+// Updated Event interface with missing properties
 export interface Event {
   id: number;
-  title: string;              // Backend sends 'title', not 'title_en'
+  title: string;
   title_ar?: string;
-  description: string;        // Backend sends 'description', not 'description_en'
+  description: string;
   description_ar?: string;
   event_type: 'physical' | 'virtual';
   status: 'draft' | 'published' | 'cancelled' | 'completed';
@@ -38,6 +38,7 @@ export interface Event {
   venue_name?: string;
   venue_address?: string;
   virtual_link?: string;
+  location_link?: string; // Add this missing property
   banner_image?: string;
   min_age?: number;
   max_age?: number;
