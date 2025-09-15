@@ -26,15 +26,16 @@
     "register": "إنشاء حساب"
   },
   "auth": {
-    "login": "تسجيل الدخول",
-    "register": "إنشاء حساب",
-    "email": "البريد الإلكتروني",
-    "password": "كلمة المرور",
-    "confirmPassword": "تأكيد كلمة المرور",
-    "forgotPassword": "نسيت كلمة المرور؟",
-    "loginSuccess": "تم تسجيل الدخول بنجاح",
-    "loginError": "بيانات الدخول غير صحيحة",
-    "logoutSuccess": "تم تسجيل الخروج بنجاح"
+    "customerLogin": "دخول العملاء",
+    "organizerLogin": "دخول المنظمين",
+    "adminLogin": "دخول المديرين", 
+    "scanPointLogin": "دخول نقطة المسح",
+    "signInToAccount": "تسجيل الدخول إلى حسابك",
+    "emailPlaceholder": "أدخل بريدك الإلكتروني",
+    "passwordPlaceholder": "أدخل كلمة المرور",
+    "signIn": "تسجيل الدخول",
+    "signUp": "إنشاء حساب",
+    "dontHaveAccount": "ليس لديك حساب؟"
   },
   "events": {
     "title": "الفعاليات",

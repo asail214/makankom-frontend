@@ -24,11 +24,12 @@ export interface Organizer extends User {
   status: 'pending' | 'verified' | 'rejected';
 }
 
+// Updated Event interface to match actual backend response
 export interface Event {
   id: number;
-  title: string;           // Changed from title_en
+  title: string;              // Backend sends 'title', not 'title_en'
   title_ar?: string;
-  description: string;     // Changed from description_en
+  description: string;        // Backend sends 'description', not 'description_en'
   description_ar?: string;
   event_type: 'physical' | 'virtual';
   status: 'draft' | 'published' | 'cancelled' | 'completed';
@@ -44,6 +45,37 @@ export interface Event {
   organizer_id?: number;
   category_id?: number;
   brand_id?: number;
+  // Additional fields that might come from backend
+  created_at?: string;
+  updated_at?: string;
+  organizer?: {
+    id: number;
+    name: string;
+  };
+  category?: {
+    id: number;
+    name: string;
+    name_ar?: string;
+  };
 }
 
 export type UserRole = 'customer' | 'organizer' | 'admin' | 'scan-point';
+
+// API Response types
+export interface PaginatedResponse<T> {
+  data: T[];
+  meta: {
+    current_page: number;
+    last_page: number;
+    per_page: number;
+    total: number;
+    from?: number;
+    to?: number;
+  };
+  links?: {
+    first: string;
+    last: string;
+    prev: string | null;
+    next: string | null;
+  };
+}

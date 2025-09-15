@@ -16,10 +16,13 @@ export const EventsList: React.FC = () => {
   const {
     data: eventsData,
     isLoading,
-    error
+    error,
+    isError
   } = useQuery({
     queryKey: ['events', params],
     queryFn: () => fetchEvents(params),
+    retry: 2,
+    retryDelay: 1000,
   });
 
   if (isLoading) {
@@ -32,7 +35,8 @@ export const EventsList: React.FC = () => {
     );
   }
 
-  if (error) {
+  if (isError) {
+    console.error('EventsList error:', error);
     return (
       <div className="min-h-screen bg-gray-25">
         <div className="container py-24">
@@ -42,7 +46,18 @@ export const EventsList: React.FC = () => {
                 <span className="text-error-500 text-2xl">⚠️</span>
               </div>
               <h3 className="text-lg font-semibold text-gray-900 mb-2">Unable to Load Events</h3>
-              <p className="text-gray-600">{t('common.error')}</p>
+              <p className="text-gray-600 mb-4">{t('common.error')}</p>
+              <p className="text-sm text-gray-500">
+                Please check if your backend server is running on port 8000
+              </p>
+              <details className="mt-4 text-left">
+                <summary className="cursor-pointer text-sm font-medium text-gray-700">
+                  Error Details
+                </summary>
+                <pre className="mt-2 text-xs text-gray-600 overflow-auto p-2 bg-gray-50 rounded">
+                  {error?.message || 'Unknown error'}
+                </pre>
+              </details>
             </div>
           </Card>
         </div>
@@ -50,7 +65,11 @@ export const EventsList: React.FC = () => {
     );
   }
 
+  // Safely get events array with fallback
   const events = eventsData?.items || [];
+  const eventsCount = events.length;
+
+  console.log('Rendering EventsList with:', { eventsCount, events });
 
   return (
     <div className="min-h-screen bg-gray-25">
@@ -88,11 +107,11 @@ export const EventsList: React.FC = () => {
               Featured Events
             </h2>
             <p className="text-gray-600 text-lg">
-              Don't miss these amazing upcoming events
+              Don't miss these amazing upcoming events ({eventsCount} events found)
             </p>
           </div>
           
-          {events.length === 0 ? (
+          {eventsCount === 0 ? (
             <Card variant="luxury" className="text-center py-16">
               <div className="max-w-md mx-auto">
                 <div className="w-20 h-20 mx-auto mb-6 bg-gray-100 rounded-full flex items-center justify-center">
@@ -100,88 +119,113 @@ export const EventsList: React.FC = () => {
                 </div>
                 <h3 className="text-xl font-semibold text-gray-900 mb-3">No Events Found</h3>
                 <p className="text-gray-600 mb-6">{t('events.noEvents')}</p>
-                <p className="text-sm text-gray-500">
-                  Make sure your backend server is running to see events
-                </p>
+                <div className="text-sm text-gray-500 space-y-2">
+                  <p>Make sure your backend server is running:</p>
+                  <code className="bg-gray-100 px-2 py-1 rounded text-xs">
+                    http://127.0.0.1:8000/api/v1/events
+                  </code>
+                </div>
               </div>
             </Card>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {events.map((event: Event) => (
-                <Card 
-                  key={event.id} 
-                  variant="luxury"
-                  padding="sm"
-                  hover
-                  className="group cursor-pointer"
-                >
-                  {/* Event Image */}
-                  <div className="relative overflow-hidden rounded-lg mb-4">
-                    {event.banner_image ? (
-                      <img 
-                        src={event.banner_image} 
-                        alt={event.title}
-                        className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
-                      />
-                    ) : (
-                      <div className="w-full h-48 bg-gradient-to-br from-primary-400 via-primary-500 to-primary-600 flex items-center justify-center relative overflow-hidden">
-                        <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent"></div>
-                        <span className="text-white text-4xl relative z-10">🎫</span>
-                      </div>
-                    )}
-                    
-                    {/* Event Badge */}
-                    <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full">
-                      <span className="text-xs font-semibold text-primary-700">Featured</span>
-                    </div>
-                  </div>
-
-                  <div className="p-4">
-                    {/* Event Title */}
-                    <h3 className="text-xl font-semibold text-gray-900 mb-3 line-clamp-2 group-hover:text-primary-700 transition-colors">
-                      {event.title}
-                    </h3>
-                    
-                    {/* Event Description */}
-                    <p className="text-gray-600 mb-4 line-clamp-3 text-sm leading-relaxed">
-                      {event.description}
-                    </p>
-                    
-                    {/* Event Meta */}
-                    <div className="space-y-2 mb-4">
-                      <div className="flex items-center text-sm text-gray-500">
-                        <span className="w-4 h-4 mr-2">📅</span>
-                        {new Date(event.start_date).toLocaleDateString('en-US', {
-                          weekday: 'short',
-                          month: 'short',
-                          day: 'numeric'
-                        })}
-                      </div>
-                      
-                      {event.venue_name && (
-                        <div className="flex items-center text-sm text-gray-500">
-                          <span className="w-4 h-4 mr-2">📍</span>
-                          <span className="truncate">{event.venue_name}</span>
-                        </div>
-                      )}
-                    </div>
-
-                    {/* Call to Action */}
-                    <div className="flex items-center justify-between pt-4 border-t border-gray-100">
-                      <span className="text-sm font-medium text-gray-700">
-                        {event.event_type === 'virtual' ? 'Online Event' : 'In-Person'}
-                      </span>
-                      <span className="text-primary-600 font-medium text-sm group-hover:text-primary-700 transition-colors">
-                        View Details →
-                      </span>
-                    </div>
-                  </div>
-                </Card>
+                <EventCard key={event.id} event={event} />
               ))}
             </div>
           )}
         </div>
       </section>
     </div>
+  );
+};
+
+// Extract EventCard component for reusability
+const EventCard: React.FC<{ event: Event }> = ({ event }) => {
+  return (
+    <Card 
+      variant="luxury"
+      padding="sm"
+      hover
+      className="group cursor-pointer"
+    >
+      {/* Event Image */}
+      <div className="relative overflow-hidden rounded-lg mb-4">
+        {event.banner_image ? (
+          <img 
+            src={event.banner_image} 
+            alt={event.title}
+            className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+          />
+        ) : (
+          <div className="w-full h-48 bg-gradient-to-br from-primary-400 via-primary-500 to-primary-600 flex items-center justify-center relative overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent"></div>
+            <span className="text-white text-4xl relative z-10">🎫</span>
+          </div>
+        )}
+        
+        {/* Event Badge */}
+        <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full">
+          <span className="text-xs font-semibold text-primary-700">
+            {event.event_type === 'virtual' ? 'Virtual' : 'In-Person'}
+          </span>
+        </div>
+      </div>
+
+      <div className="p-4">
+        {/* Event Title */}
+        <h3 className="text-xl font-semibold text-gray-900 mb-3 line-clamp-2 group-hover:text-primary-700 transition-colors">
+          {event.title}
+        </h3>
+        
+        {/* Event Description */}
+        {event.description && (
+          <p className="text-gray-600 mb-4 line-clamp-3 text-sm leading-relaxed">
+            {event.description}
+          </p>
+        )}
+        
+        {/* Event Meta */}
+        <div className="space-y-2 mb-4">
+          <div className="flex items-center text-sm text-gray-500">
+            <span className="w-4 h-4 mr-2">📅</span>
+            {new Date(event.start_date).toLocaleDateString('en-US', {
+              weekday: 'short',
+              month: 'short',
+              day: 'numeric',
+              year: 'numeric'
+            })}
+          </div>
+          
+          {event.venue_name && (
+            <div className="flex items-center text-sm text-gray-500">
+              <span className="w-4 h-4 mr-2">📍</span>
+              <span className="truncate">{event.venue_name}</span>
+            </div>
+          )}
+
+          {/* Status Badge */}
+          <div className="flex items-center text-sm">
+            <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+              event.status === 'published' ? 'bg-green-100 text-green-700' :
+              event.status === 'draft' ? 'bg-yellow-100 text-yellow-700' :
+              'bg-gray-100 text-gray-700'
+            }`}>
+              {event.status}
+            </span>
+          </div>
+        </div>
+
+        {/* Call to Action */}
+        <div className="flex items-center justify-between pt-4 border-t border-gray-100">
+          <span className="text-sm font-medium text-gray-700">
+            {event.event_type === 'virtual' ? 'Online Event' : 'In-Person'}
+          </span>
+          <span className="text-primary-600 font-medium text-sm group-hover:text-primary-700 transition-colors">
+            View Details →
+          </span>
+        </div>
+      </div>
+    </Card>
   );
 };

@@ -7,19 +7,13 @@ import { AdminLayout } from '../shared/components/AdminLayout';
 import { ScanPointLayout } from '../shared/components/ScanPointLayout';
 import { ProtectedRoute } from '../shared/components/ProtectedRoute';
 import { EventsList } from '../features/events/pages/EventsList';
+import { Login } from '../features/auth/pages/Login';
 
 // Temporary placeholder components
 const HomePage = () => (
   <div className="container mx-auto px-4 py-8">
     <h1 className="text-3xl font-bold text-gray-900 mb-4">Welcome to Makankom</h1>
     <p className="text-gray-600">Your event ticketing platform</p>
-  </div>
-);
-
-const LoginPage = () => (
-  <div className="container mx-auto px-4 py-8">
-    <h1 className="text-3xl font-bold text-gray-900 mb-4">Login</h1>
-    <p className="text-gray-600">Login form will be here</p>
   </div>
 );
 
@@ -78,7 +72,7 @@ export const AppRouter: React.FC = () => {
       {/* Public Routes */}
       <Route path="/" element={<PublicLayout><HomePage /></PublicLayout>} />
       <Route path="/events" element={<PublicLayout><EventsList /></PublicLayout>} />
-      <Route path="/login" element={<PublicLayout><LoginPage /></PublicLayout>} />
+      <Route path="/login" element={<PublicLayout><Login /></PublicLayout>} />
       <Route path="/register" element={<PublicLayout><RegisterPage /></PublicLayout>} />
       <Route path="/unauthorized" element={<PublicLayout><UnauthorizedPage /></PublicLayout>} />
 

@@ -26,15 +26,16 @@
     "register": "Register"
   },
   "auth": {
-    "login": "Login",
-    "register": "Register",
-    "email": "Email",
-    "password": "Password",
-    "confirmPassword": "Confirm Password",
-    "forgotPassword": "Forgot Password?",
-    "loginSuccess": "Login successful",
-    "loginError": "Invalid credentials",
-    "logoutSuccess": "Logged out successfully"
+    "customerLogin": "Customer Login",
+    "organizerLogin": "Organizer Login", 
+    "adminLogin": "Admin Login",
+    "scanPointLogin": "Scan Point Login",
+    "signInToAccount": "Sign in to your account",
+    "emailPlaceholder": "Enter your email",
+    "passwordPlaceholder": "Enter your password",
+    "signIn": "Sign In",
+    "signUp": "Sign Up",
+    "dontHaveAccount": "Don't have an account?"
   },
   "events": {
     "title": "Events",
